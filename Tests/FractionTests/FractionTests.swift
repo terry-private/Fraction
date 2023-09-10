@@ -26,5 +26,18 @@ final class FractionTests: XCTestCase {
     func testComparable() {
         XCTAssertTrue(Fraction(1) < Fraction(2))
         XCTAssertFalse(Fraction(2) < Fraction(1))
+        print(Fraction(1, 4).double)
+        print(Fraction(1, 4).decimal)
+        print(Fraction(-11, 4).wholePart)
+        print(Fraction(-11, 4).fractionalPart)
+    }
+    
+    func testConversionToOtherNumericThpes() {
+        let fraction = Fraction(-11, 4)
+        XCTAssertEqual(fraction.double, -2.75)
+        XCTAssertEqual(fraction.decimal, -2.75)
+        XCTAssertEqual(fraction.wholePart, -2)
+        XCTAssertEqual(fraction.fractionalPart, Fraction(-3, 4))
+        XCTAssertEqual(fraction.wholePart + fraction.fractionalPart, fraction)
     }
 }
