@@ -34,12 +34,12 @@ public extension Fraction {
         return Decimal(numerator) / Decimal(denominator)
     }
     
-    /// Greater Than 1
+    /// Greater than or equal to 1
     var wholePart: Int {
         return numerator / denominator
     }
     
-    /// Less Than 1
+    /// Less than 1
     var fractionalPart: Fraction {
         Fraction(numerator % denominator, denominator)
     }
