@@ -1,3 +1,5 @@
+import Foundation
+
 public struct Fraction {
     public var numerator: Int
     public var denominator: Int {
@@ -19,6 +21,27 @@ public extension Fraction {
     
     init(_ child: Int = 1){
         self.init(child, 1)
+    }
+}
+
+// MARK: - Conversion to other numeric types
+public extension Fraction {
+    var double: Double {
+        return Double(numerator) / Double(denominator)
+    }
+    
+    var decimal: Decimal {
+        return Decimal(numerator) / Decimal(denominator)
+    }
+    
+    /// Greater than or equal to 1
+    var wholePart: Int {
+        return numerator / denominator
+    }
+    
+    /// Less than 1
+    var fractionalPart: Fraction {
+        Fraction(numerator % denominator, denominator)
     }
 }
 
