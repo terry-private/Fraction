@@ -19,8 +19,14 @@ public extension Fraction {
         approx()
     }
     
-    init(_ child: Int = 1){
+    init(_ child: Int = 1) {
         self.init(child, 1)
+    }
+
+    init(_ decimal: Decimal) {
+        denominator = Int(pow(10, max(0, -Double(decimal.exponent))))
+        numerator = NSDecimalNumber(decimal: decimal * Decimal(denominator)).intValue
+        approx()
     }
 }
 
