@@ -40,4 +40,12 @@ final class FractionTests: XCTestCase {
         XCTAssertEqual(fraction.fractionalPart, Fraction(-3, 4))
         XCTAssertEqual(fraction.wholePart + fraction.fractionalPart, fraction)
     }
+    
+    func testDecimalInit() {
+        let decimal: Decimal = -1.2
+        let fraction: Fraction = Fraction(decimal)
+        XCTAssertEqual(decimal, fraction.decimal)
+        XCTAssertEqual(fraction.numerator, -6)
+        XCTAssertEqual(fraction.denominator, 5)
+    }
 }
