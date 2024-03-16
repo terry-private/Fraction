@@ -42,10 +42,19 @@ final class FractionTests: XCTestCase {
     }
     
     func testDecimalInit() {
-        let decimal: Decimal = -1.2
-        let fraction: Fraction = Fraction(decimal)
-        XCTAssertEqual(decimal, fraction.decimal)
-        XCTAssertEqual(fraction.numerator, -6)
-        XCTAssertEqual(fraction.denominator, 5)
+        XCTContext.runActivity(named: "-1.2 = -6/5") { _ in
+            let decimal: Decimal = -1.2
+            let fraction: Fraction = Fraction(decimal)
+            XCTAssertEqual(decimal, fraction.decimal)
+            XCTAssertEqual(fraction.numerator, -6)
+            XCTAssertEqual(fraction.denominator, 5)
+        }
+        XCTContext.runActivity(named: "33.33... = 3333.../100... Intの最大桁数-1") { _ in
+            let decimal: Decimal = 100.0/3.0
+            let fraction: Fraction = Fraction(decimal)
+            let fractionDigits = fraction.decimal.description.count - 1 // reduce decimal point
+            let intDigits = Int.max.description.count - 1
+            XCTAssertEqual(fractionDigits, intDigits)
+        }
     }
 }

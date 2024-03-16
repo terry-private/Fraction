@@ -1,31 +1,36 @@
 import Foundation
 
 public struct Fraction {
-    public var numerator: Int
-    public var denominator: Int {
+    private let maxExponent = 16 // Int.maxは18桁だがn * 10^17だとはみ出る可能性があるので一桁下げる
+    public private(set) var numerator: Int
+    public private(set) var denominator: Int {
         // 分母に値をセットすることと割り算をすることを同義と考えて分母に値をセットするタイミングで0値エラーを検出します。
         didSet{
-            if denominator == 0 { fatalError("Division by 0") }
+            precondition(denominator != .zero, "Division by 0")
         }
     }
 }
 
 // MARK: - init
 public extension Fraction {
-    init(_ numerator: Int, _ denominator: Int) {
+    init(_ numerator: Int, _ denominator: Int = 1) {
         let negativeSign = numerator * denominator >= 0 ? 1 : -1
         self.numerator = abs(numerator) * negativeSign
         self.denominator = abs(denominator)
         approx()
     }
-    
-    init(_ child: Int = 1) {
-        self.init(child, 1)
-    }
 
+    // Intの最大可能な桁数-1で丸める
     init(_ decimal: Decimal) {
-        denominator = Int(pow(10, max(0, -Double(decimal.exponent))))
-        numerator = NSDecimalNumber(decimal: decimal * Decimal(denominator)).intValue
+        let log10: Int
+        let strings = abs(decimal).description.split(separator: ".")
+        if strings.count == 2 {
+            log10 = max(0, strings[1].count - (strings[0].count-1))
+        } else {
+            log10 = 0
+        }
+        denominator = Int(pow(10, max(0, Double(min(maxExponent, log10)))))
+        numerator = Int((decimal * Decimal(denominator)).description.split(separator: ".")[0])!
         approx()
     }
 }
@@ -139,7 +144,6 @@ extension Fraction {
         numerator /= gcd
         denominator /= gcd
     }
-    
 }
 
 /// ユークリッドの互除法を使った最大公約数
