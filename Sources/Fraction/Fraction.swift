@@ -14,7 +14,7 @@ public struct Fraction: Sendable, Hashable, Codable {
 // MARK: - init
 public extension Fraction {
     init(_ numerator: Int, _ denominator: Int = 1) {
-        let negativeSign = numerator * denominator >= 0 ? 1 : -1
+        let negativeSign = numerator / denominator >= 0 ? 1 : -1
         self.numerator = abs(numerator) * negativeSign
         self.denominator = abs(denominator)
         approx()
