@@ -49,8 +49,15 @@ final class FractionTests: XCTestCase {
             XCTAssertEqual(fraction.numerator, -6)
             XCTAssertEqual(fraction.denominator, 5)
         }
-        XCTContext.runActivity(named: "33.33... = 3333.../100... Intの最大桁数-1") { _ in
-            let decimal: Decimal = 100.0/3.0
+        XCTContext.runActivity(named: "12.34 = 617.50") { _ in
+            let decimal: Decimal = 12.34
+            let fraction: Fraction = Fraction(decimal)
+            XCTAssertEqual(decimal, fraction.decimal)
+            XCTAssertEqual(fraction.numerator, 617)
+            XCTAssertEqual(fraction.denominator, 50)
+        }
+        XCTContext.runActivity(named: "3333.33... = 3333.../100... Intの最大桁数-1") { _ in
+            let decimal: Decimal = 10000.0/3.0
             let fraction: Fraction = Fraction(decimal)
             let fractionDigits = fraction.decimal.description.count - 1 // reduce decimal point
             let intDigits = Int.max.description.count - 1

@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Fraction: Sendable, Hashable, Codable {
-    private static let maxExponent = 16 // Int.maxは18桁だがn * 10^17だとはみ出る可能性があるので一桁下げる
+    private static let maxExponent = 18 // Int.maxは19桁だがn * 10^18だとはみ出る可能性があるので一桁下げる
     public private(set) var numerator: Int
     public private(set) var denominator: Int {
         // 分母に値をセットすることと割り算をすることを同義と考えて分母に値をセットするタイミングで0値エラーを検出します。
@@ -25,11 +25,11 @@ public extension Fraction {
         let log10: Int
         let strings = abs(decimal).description.split(separator: ".")
         if strings.count == 2 {
-            log10 = max(0, strings[1].count - (strings[0].count-1))
+            log10 = strings[1].count
         } else {
             log10 = 0
         }
-        denominator = Int(pow(10, max(0, Double(min(Self.maxExponent, log10)))))
+        denominator = Int(pow(10, max(0, Double(min(Self.maxExponent-strings[0].count, log10)))))
         numerator = Int((decimal * Decimal(denominator)).description.split(separator: ".")[0])!
         approx()
     }
